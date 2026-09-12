@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Jed Rafer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700;900&family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy-dark: #060912;
+            --brand-red: #ef1f25;
+            --soft-cream: #f8f2eb;
+            --text-dark: #3b241a;
+            --rose: #ee6f82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--soft-cream);
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .page-header {
+            background: var(--navy-dark);
+            padding: 24px 6vw;
+        }
+
+        .back-link {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .back-link:hover {
+            color: var(--rose);
+        }
+
+        main {
+            width: min(1100px, 100% - 48px);
+            margin: 0 auto;
+            padding: 72px 0 90px;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 300%;
+            transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .slide {
+            width: 33.3333%;
+            flex: 0 0 33.3333%;
+            padding: 2px 0 24px;
+        }
+
+        .slide[aria-hidden="true"] {
+            pointer-events: none;
+        }
+
+        h1 {
+            color: var(--brand-red);
+            font-family: 'League Spartan', sans-serif;
+            font-size: clamp(58px, 11vw, 148px);
+            font-weight: 900;
+            line-height: 0.88;
+            text-transform: uppercase;
+        }
+
+        .intro {
+            max-width: 760px;
+            margin-top: 38px;
+            font-size: clamp(19px, 2.2vw, 30px);
+            line-height: 1.55;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 64px;
+            border-top: 1px solid rgba(59, 36, 26, 0.25);
+            padding-top: 28px;
+        }
+
+        .details h2 {
+            color: var(--brand-red);
+            font-family: 'League Spartan', sans-serif;
+            font-size: 25px;
+            text-transform: uppercase;
+        }
+
+        .details p {
+            margin-top: 10px;
+            line-height: 1.65;
+        }
+
+        .skills-intro {
+            max-width: 720px;
+            margin-top: 26px;
+            font-size: clamp(17px, 2vw, 25px);
+            line-height: 1.55;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 48px;
+        }
+
+        .skill-group {
+            min-height: 190px;
+            padding: 22px;
+            border: 1px solid rgba(59, 36, 26, 0.2);
+            background: rgba(255, 255, 255, 0.38);
+            box-shadow: 8px 8px 0 rgba(59, 36, 26, 0.12);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .skill-group:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 0 rgba(59, 36, 26, 0.16);
+        }
+
+        .skill-group h2 {
+            color: var(--brand-red);
+            font-family: 'League Spartan', sans-serif;
+            font-size: clamp(22px, 2.6vw, 34px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .skill-group p {
+            margin-top: 18px;
+            font-size: clamp(15px, 1.5vw, 20px);
+            line-height: 1.65;
+        }
+
+        .hobbies-slide {
+            margin: 0;
+            padding: 34px clamp(20px, 4vw, 54px) 44px;
+            background: var(--navy-dark);
+            color: #ffffff;
+            box-shadow: 14px 14px 0 rgba(6, 9, 18, 0.18);
+        }
+
+        .hobbies-slide h1 {
+            color: #2fb3ff;
+        }
+
+        .hobbies-intro {
+            max-width: 700px;
+            margin-top: 24px;
+            color: #d8e6ff;
+            font-size: clamp(17px, 2vw, 25px);
+            line-height: 1.55;
+        }
+
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 42px;
+        }
+
+        .hobby-card {
+            min-height: 180px;
+            padding: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            isolation: isolate;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .hobby-card:hover,
+        .hobby-card:focus-within {
+            transform: translateY(-6px) rotate(-1deg);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hobby-card h2 {
+            position: relative;
+            z-index: 1;
+            font-family: 'League Spartan', sans-serif;
+            font-size: clamp(25px, 3vw, 42px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .hobby-card p {
+            position: relative;
+            z-index: 1;
+            margin-top: 16px;
+            color: #e4ecff;
+            font-size: clamp(14px, 1.4vw, 18px);
+            line-height: 1.55;
+        }
+
+        .hobby-basketball {
+            border-color: #ff9d3d;
+            background-image: linear-gradient(rgba(6, 9, 18, 0.44), rgba(6, 9, 18, 0.7)), url('basketball.jpg');
+        }
+
+        .hobby-basketball h2 {
+            color: #ff9d3d;
+        }
+
+        .hobby-gaming {
+            border-color: #c38cff;
+            background-image: linear-gradient(rgba(6, 9, 18, 0.56), rgba(6, 9, 18, 0.72)), url('valorant.jpg');
+        }
+
+        .hobby-gaming h2 {
+            color: #c38cff;
+        }
+
+        .hobby-anime {
+            border-color: #ff6f9d;
+            background-image: linear-gradient(rgba(6, 9, 18, 0.48), rgba(6, 9, 18, 0.7)), url('onepiece.jpg');
+        }
+
+        .hobby-anime h2 {
+            color: #ff6f9d;
+        }
+
+        .hobby-movies {
+            border-color: #65e5cf;
+            background-image: linear-gradient(rgba(6, 9, 18, 0.5), rgba(6, 9, 18, 0.72)), url('spiderman.jpg');
+        }
+
+        .hobby-movies h2 {
+            color: #65e5cf;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-top: 28px;
+            padding: 12px 0;
+        }
+
+        .carousel-status {
+            min-width: 82px;
+            color: rgba(59, 36, 26, 0.65);
+            font-family: 'League Spartan', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .carousel-button {
+            min-width: 104px;
+            padding: 11px 16px;
+            border: 1px solid var(--brand-red);
+            background: transparent;
+            color: var(--brand-red);
+            font: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .carousel-button:hover,
+        .carousel-button:focus-visible {
+            background: var(--brand-red);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .carousel-button:focus-visible,
+        .carousel-dot:focus-visible {
+            outline: 3px solid var(--rose);
+            outline-offset: 3px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 11px;
+            height: 11px;
+            padding: 0;
+            border: 1px solid var(--brand-red);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .carousel-dot.is-active {
+            background: var(--brand-red);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .carousel-track,
+            .carousel-button,
+            .skill-group {
+                transition: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            main {
+                width: min(100% - 32px, 1100px);
+                padding-top: 52px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+                margin-top: 46px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                margin-top: 36px;
+            }
+
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+                margin-top: 32px;
+            }
+
+            .carousel-controls {
+                gap: 8px;
+                margin-top: 12px;
+                padding: 10px 8px;
+            }
+
+            .carousel-button {
+                min-width: 0;
+                flex: 1 1 0;
+                padding: 10px 8px;
+            }
+
+            .carousel-status {
+                min-width: 64px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <a class="back-link" href="index.html">&larr; Back to portfolio</a>
+    </header>
+
+    <main>
+        <div class="carousel" id="aboutCarousel" aria-label="About Me, Skills, and Hobbies">
+            <div class="carousel-track">
+                <section class="slide" aria-labelledby="aboutSlideTitle">
+                    <h1 id="aboutSlideTitle">About Me</h1>
+                    <p class="intro">I am a fresh graduate of Colegio de San Juan de Letran-Calamba with a background in Information Technology. I am a motivated and adaptable individual who enjoys learning new technologies and turning ideas into useful digital experiences.</p>
+
+                    <div class="details">
+                        <section>
+                            <h2>My Approach</h2>
+                            <p>I work with curiosity, patience, and attention to detail. I enjoy understanding a problem clearly before building a practical solution.</p>
+                        </section>
+                        <section>
+                            <h2>My Strengths</h2>
+                            <p>I am adaptable, dependable, open to feedback, and comfortable working both independently and with a team.</p>
+                        </section>
+                        <section>
+                            <h2>My Goal</h2>
+                            <p>I am looking for opportunities where I can contribute my IT knowledge, grow as a professional, and continue developing as a web developer.</p>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="slide" aria-labelledby="skillsSlideTitle" aria-hidden="true">
+                    <h1 id="skillsSlideTitle">Skills</h1>
+                    <p class="skills-intro">A practical toolkit for building, styling, connecting, and improving digital experiences.</p>
+
+                    <div class="skills-grid">
+                        <section class="skill-group">
+                            <h2>Programming Language</h2>
+                            <p>Python, JavaScript, Java, HTML5, CSS3, C++</p>
+                        </section>
+                        <section class="skill-group">
+                            <h2>Database</h2>
+                            <p>MySQL</p>
+                        </section>
+                        <section class="skill-group">
+                            <h2>Tools and Technologies</h2>
+                            <p>Android Studio, Git, Visual Studio Code, Microsoft Office 365: Word, Excel, PowerPoint</p>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="slide hobbies-slide" aria-labelledby="hobbiesSlideTitle" aria-hidden="true">
+                    <h1 id="hobbiesSlideTitle">Hobbies</h1>
+                    <p class="hobbies-intro">The things I enjoy outside of work keep me curious, competitive, creative, and connected to new stories.</p>
+
+                    <div class="hobbies-grid">
+                        <article class="hobby-card hobby-basketball">
+                            <h2>Basketball</h2>
+                            <p>I enjoy the energy of the game, the teamwork, and the challenge of improving one play at a time.</p>
+                        </article>
+                        <article class="hobby-card hobby-gaming">
+                            <h2>Gaming</h2>
+                            <p>I play computer games such as Valorant for strategy, quick decisions, and friendly competition.</p>
+                        </article>
+                        <article class="hobby-card hobby-anime">
+                            <h2>Anime</h2>
+                            <p>I like discovering imaginative worlds, memorable characters, and stories with different perspectives.</p>
+                        </article>
+                        <article class="hobby-card hobby-movies">
+                            <h2>Movies</h2>
+                            <p>I enjoy watching movies to relax, explore new ideas, and appreciate strong visual storytelling.</p>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="carousel-controls">
+            <button class="carousel-button" id="previousSlide" type="button" aria-label="Show About Me">Previous</button>
+            <div class="carousel-dots" role="tablist" aria-label="Choose About Me section">
+                <button class="carousel-dot is-active" type="button" role="tab" aria-selected="true" aria-label="About Me" data-slide="0"></button>
+                <button class="carousel-dot" type="button" role="tab" aria-selected="false" aria-label="Skills" data-slide="1"></button>
+                <button class="carousel-dot" type="button" role="tab" aria-selected="false" aria-label="Hobbies" data-slide="2"></button>
+            </div>
+            <span class="carousel-status" id="carouselStatus" aria-live="polite">01 / 03</span>
+            <button class="carousel-button" id="nextSlide" type="button" aria-label="Show Skills">Next</button>
+        </div>
+    </main>
+
+    <script>
+        const carousel = document.getElementById('aboutCarousel');
+        const track = carousel.querySelector('.carousel-track');
+        const slides = [...carousel.querySelectorAll('.slide')];
+        const dots = [...document.querySelectorAll('.carousel-dot')];
+        const previousButton = document.getElementById('previousSlide');
+        const nextButton = document.getElementById('nextSlide');
+        const carouselStatus = document.getElementById('carouselStatus');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let currentSlide = 0;
+        let autoAdvance;
+        let pointerStartX = null;
+        const slideNames = ['About Me', 'Skills', 'Hobbies'];
+
+        const updateCarousel = (slideIndex) => {
+            currentSlide = (slideIndex + slides.length) % slides.length;
+            track.style.transform = `translateX(-${currentSlide * (100 / slides.length)}%)`;
+            const adjacentSlide = slideNames[(currentSlide + 1) % slides.length];
+            previousButton.setAttribute('aria-label', `Show ${slideNames[(currentSlide - 1 + slides.length) % slides.length]}`);
+            nextButton.setAttribute('aria-label', `Show ${adjacentSlide}`);
+            carouselStatus.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+
+            slides.forEach((slide, index) => {
+                const isCurrent = index === currentSlide;
+                slide.setAttribute('aria-hidden', String(!isCurrent));
+            });
+
+            dots.forEach((dot, index) => {
+                const isCurrent = index === currentSlide;
+                dot.classList.toggle('is-active', isCurrent);
+                dot.setAttribute('aria-selected', String(isCurrent));
+            });
+        };
+
+        const stopAutoAdvance = () => window.clearInterval(autoAdvance);
+        const startAutoAdvance = () => {
+            if (!prefersReducedMotion) {
+                stopAutoAdvance();
+                autoAdvance = window.setInterval(() => updateCarousel(currentSlide + 1), 6000);
+            }
+        };
+
+        previousButton.addEventListener('click', () => {
+            updateCarousel(currentSlide - 1);
+            startAutoAdvance();
+        });
+
+        nextButton.addEventListener('click', () => {
+            updateCarousel(currentSlide + 1);
+            startAutoAdvance();
+        });
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                updateCarousel(Number(dot.dataset.slide));
+                startAutoAdvance();
+            });
+        });
+
+        carousel.addEventListener('pointerdown', (event) => {
+            pointerStartX = event.clientX;
+            stopAutoAdvance();
+            if (event.pointerId !== undefined && carousel.setPointerCapture) {
+                try {
+                    carousel.setPointerCapture(event.pointerId);
+                } catch {
+                    pointerStartX = event.clientX;
+                }
+            }
+        });
+
+        carousel.addEventListener('pointerup', (event) => {
+            if (pointerStartX === null) {
+                return;
+            }
+
+            const distance = event.clientX - pointerStartX;
+            if (Math.abs(distance) > 45) {
+                updateCarousel(currentSlide + (distance < 0 ? 1 : -1));
+            }
+
+            pointerStartX = null;
+            startAutoAdvance();
+        });
+
+        carousel.addEventListener('pointercancel', () => {
+            pointerStartX = null;
+            startAutoAdvance();
+        });
+
+        carousel.addEventListener('mouseenter', stopAutoAdvance);
+        carousel.addEventListener('mouseleave', startAutoAdvance);
+        updateCarousel(0);
+        startAutoAdvance();
+    </script>
+</body>
+</html>

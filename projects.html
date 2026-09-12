@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Jed Rafer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .projects-page {
+            min-height: 100vh;
+            background-color: var(--soft-cream);
+            background-image:
+                radial-gradient(circle at 85% 8%, rgba(47, 179, 255, 0.16), transparent 24%),
+                linear-gradient(135deg, rgba(239, 31, 37, 0.04), transparent 42%);
+            color: var(--text-dark);
+            overflow: visible;
+        }
+
+        .projects-header {
+            padding: 24px 0;
+            background: var(--navy-dark);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 8px 22px rgba(6, 9, 18, 0.12);
+        }
+
+        .projects-header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .projects-back,
+        .projects-kicker {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .projects-back:hover,
+        .projects-back:focus-visible {
+            color: var(--rose);
+        }
+
+        .projects-main {
+            padding: 82px 0 100px;
+        }
+
+        .projects-title {
+            max-width: 850px;
+            color: var(--brand-red);
+            font-family: 'League Spartan', sans-serif;
+            font-size: clamp(64px, 11vw, 154px);
+            line-height: 0.84;
+            text-shadow: 7px 7px 0 rgba(47, 179, 255, 0.34);
+            text-transform: uppercase;
+        }
+
+        .projects-intro {
+            max-width: 680px;
+            margin-top: 30px;
+            color: var(--text-dark);
+            font-size: clamp(17px, 2vw, 25px);
+            line-height: 1.5;
+        }
+
+        .project-signal {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 28px;
+            padding: 9px 12px;
+            border: 1px solid var(--brand-red);
+            background: rgba(239, 31, 37, 0.08);
+            color: var(--brand-red);
+            font-size: 10px;
+            line-height: 1.5;
+            animation: signalPop 0.7s 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards, signalFloat 3s 3.5s ease-in-out infinite;
+        }
+
+        .project-signal::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            background: var(--brand-red);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(239, 31, 37, 0.14);
+        }
+
+        .project-list {
+            display: grid;
+            gap: 70px;
+            margin-top: 86px;
+        }
+
+        .project-entry {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+            gap: 44px;
+            padding: 38px 38px 34px;
+            border: 1px solid rgba(59, 36, 26, 0.2);
+            background: rgba(255, 255, 255, 0.64);
+            box-shadow: 12px 12px 0 rgba(47, 179, 255, 0.2);
+            animation: projectRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+        }
+
+        .project-entry:nth-child(2) {
+            animation-delay: 0.22s;
+        }
+
+        .project-entry:nth-child(3) {
+            animation-delay: 0.44s;
+        }
+
+        .project-entry::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-red), #ff9d3d, var(--button-blue));
+        }
+
+        .project-entry:hover,
+        .project-entry:focus-visible {
+            transform: translate(-5px, -5px);
+            box-shadow: 17px 17px 0 rgba(239, 31, 37, 0.22);
+            filter: saturate(1.08);
+            outline: none;
+        }
+
+        .project-video-trigger {
+            cursor: pointer;
+        }
+
+        .project-image-trigger {
+            cursor: pointer;
+        }
+
+        .project-video-trigger::after {
+            content: "PLAY PEMDASH";
+            position: absolute;
+            right: 28px;
+            top: 22px;
+            padding: 8px 10px;
+            background: var(--brand-red);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+        }
+
+        .project-image-trigger::after {
+            content: "VIEW ANA";
+            position: absolute;
+            right: 28px;
+            top: 22px;
+            padding: 8px 10px;
+            background: var(--brand-red);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+        }
+
+        .project-number {
+            display: inline-block;
+            padding: 8px 10px;
+            color: #ffffff;
+            background: var(--brand-red);
+            font-size: clamp(48px, 6vw, 88px);
+            font-weight: 900;
+            line-height: 0.85;
+            box-shadow: 6px 6px 0 rgba(59, 36, 26, 0.2);
+        }
+
+        .project-name {
+            margin-top: 4px;
+            color: var(--text-dark);
+            font-family: 'League Spartan', sans-serif;
+            font-size: clamp(34px, 5vw, 76px);
+            line-height: 0.92;
+            text-transform: uppercase;
+        }
+
+        .project-type {
+            margin-top: 18px;
+            color: var(--brand-red);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .project-description {
+            max-width: 760px;
+            margin-top: 22px;
+            color: var(--text-dark);
+            font-size: clamp(16px, 1.5vw, 21px);
+            line-height: 1.7;
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .project-stack span {
+            padding: 7px 10px;
+            border: 1px solid rgba(59, 36, 26, 0.26);
+            background: var(--soft-cream);
+            color: var(--text-dark);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .video-viewer {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(6, 9, 18, 0.88);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .video-viewer.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .image-viewer {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(6, 9, 18, 0.88);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .image-viewer.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .image-viewer-panel {
+            width: min(960px, 100%);
+            padding: 24px;
+            background: var(--soft-cream);
+            box-shadow: 12px 12px 0 rgba(239, 31, 37, 0.28);
+        }
+
+        .image-viewer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .image-viewer-title {
+            color: var(--text-dark);
+            font-family: 'League Spartan', sans-serif;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+
+        .image-viewer-close {
+            border: 0;
+            background: var(--brand-red);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            padding: 8px 11px;
+        }
+
+        .image-frame {
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+            background: #060912;
+        }
+
+        .image-choices {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .image-choice {
+            border: 1px solid var(--brand-red);
+            background: transparent;
+            color: var(--brand-red);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 9px 12px;
+            text-transform: uppercase;
+        }
+
+        .image-choice.is-selected,
+        .image-choice:hover,
+        .image-choice:focus-visible {
+            background: var(--brand-red);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .video-viewer-panel {
+            width: min(960px, 100%);
+            padding: 24px;
+            background: var(--soft-cream);
+            box-shadow: 12px 12px 0 rgba(47, 179, 255, 0.28);
+        }
+
+        .video-viewer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .video-viewer-title {
+            color: var(--text-dark);
+            font-family: 'League Spartan', sans-serif;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+
+        .video-viewer-close {
+            border: 0;
+            background: var(--brand-red);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            padding: 8px 11px;
+        }
+
+        .video-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            display: block;
+            background: #060912;
+        }
+
+        .video-choices {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .video-choice {
+            border: 1px solid var(--brand-red);
+            background: transparent;
+            color: var(--brand-red);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 9px 12px;
+            text-transform: uppercase;
+        }
+
+        .video-choice.is-selected,
+        .video-choice:hover,
+        .video-choice:focus-visible {
+            background: var(--brand-red);
+            color: #ffffff;
+            outline: none;
+        }
+
+        @keyframes signalPop {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes signalFloat {
+            0%, 100% {
+                margin-left: 0;
+            }
+            50% {
+                margin-left: 8px;
+            }
+        }
+
+        @keyframes projectRise {
+            from {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .project-signal,
+            .project-entry {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .projects-header {
+                padding: 18px 0;
+            }
+
+            .projects-header .container {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .projects-main {
+                padding: 54px 0 70px;
+            }
+
+            .project-list {
+                gap: 54px;
+                margin-top: 58px;
+            }
+
+            .project-entry {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .project-number {
+                font-size: 48px;
+            }
+
+            .project-video-trigger::after {
+                right: 18px;
+                top: 18px;
+            }
+
+            .project-image-trigger::after {
+                right: 18px;
+                top: 18px;
+            }
+
+            .video-viewer-panel {
+                padding: 16px;
+            }
+
+            .image-viewer-panel {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body class="projects-page">
+    <header class="projects-header">
+        <div class="container">
+            <a class="projects-back" href="index.html">&larr; Back to portfolio</a>
+            <span class="projects-kicker">Selected work / 2020 - 2026</span>
+        </div>
+    </header>
+
+    <main class="projects-main container">
+        <p class="projects-kicker">Featured projects</p>
+        <h1 class="projects-title">Turning Skills<br>into Work</h1>
+        <p class="projects-intro">A selection of academic and professional projects focused on useful interfaces, practical systems, and thoughtful digital experiences.</p>
+        <span class="project-signal" aria-hidden="true">BUILD MODE // ACTIVE</span>
+
+        <div class="project-list">
+            <article class="project-entry project-video-trigger" tabindex="0" role="button" data-video="p595Z_HTjyo" data-start="62" aria-label="Play PEMDASH project videos">
+                <div>
+                    <p class="project-number">01</p>
+                    <p class="project-type">Thesis Capstone Project</p>
+                </div>
+                <div>
+                    <h2 class="project-name">PEMDASH</h2>
+                    <p class="project-description">A gamified learning app on order of operations with fractions and decimals. I led the full-stack, end-to-end development of a responsive web app for Grade 4 and 5 Letran Elementary students, engineering the PHP/MySQL backend architecture for interactive math modules and dynamic progress tracking.</p>
+                    <p class="project-description">The platform transitioned from static frontend components to a database-driven system, with custom backend logic and teacher portal features for assigning tailored activities and managing student performance data.</p>
+                    <div class="project-stack" aria-label="PEMDASH technologies">
+                        <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>PHP</span><span>MySQL</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-entry project-image-trigger" tabindex="0" role="button" aria-label="View ANA project images">
+                <div>
+                    <p class="project-number">02</p>
+                    <p class="project-type">Figma UI/UX &amp; Web Project</p>
+                </div>
+                <div>
+                    <h2 class="project-name">ANA</h2>
+                    <p class="project-description">Attendance Notification Approval for One Agno Medical Solutions. I designed and built an automated employee attendance and exception request management system, translating physical tracking forms into an intuitive dashboard interface.</p>
+                    <div class="project-stack" aria-label="ANA technologies">
+                        <span>Figma</span><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>PHP</span><span>Google Apps Script</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-entry project-video-trigger" tabindex="0" role="button" data-video="a8gD0xTf12Q" data-title="Attack on Titan Flappy Bird" aria-label="Play Attack on Titan Flappy Bird video">
+                <div>
+                    <p class="project-number">03</p>
+                    <p class="project-type">First-Year Game Project</p>
+                </div>
+                <div>
+                    <h2 class="project-name">Attack on Titan<br>Flappy Bird</h2>
+                    <p class="project-description">A GameMaker game I created during my first year, reimagining the classic Flappy Bird challenge with an Attack on Titan-inspired setting. I designed the gameplay loop, obstacle timing, scoring system, and themed presentation as an early exploration of game development.</p>
+                    <div class="project-stack" aria-label="Attack on Titan Flappy Bird technologies">
+                        <span>GameMaker</span><span>GML</span><span>2D Game Design</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <div class="video-viewer" id="videoViewer" aria-hidden="true">
+        <div class="video-viewer-panel" role="dialog" aria-modal="true" aria-labelledby="videoViewerTitle">
+            <div class="video-viewer-head">
+                <h2 class="video-viewer-title" id="videoViewerTitle">Project videos</h2>
+                <button class="video-viewer-close" id="videoViewerClose" type="button" aria-label="Close video player">&times;</button>
+            </div>
+            <iframe class="video-frame" id="videoFrame" title="PEMDASH project video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-choices" aria-label="Choose a PEMDASH video">
+                <button class="video-choice is-selected" type="button" data-video="p595Z_HTjyo" data-start="62">Video 1</button>
+                <button class="video-choice" type="button" data-video="TJe5lxbEE-U">Video 2</button>
+                <button class="video-choice" type="button" data-video="ZuRopxIt5dQ">Video 3</button>
+                <button class="video-choice" type="button" data-video="fjRFzTiuvww">Video 4</button>
+                <button class="video-choice" type="button" data-video="a8gD0xTf12Q" data-title="Attack on Titan Flappy Bird">Attack on Titan Flappy Bird</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-viewer" id="imageViewer" aria-hidden="true">
+        <div class="image-viewer-panel" role="dialog" aria-modal="true" aria-labelledby="imageViewerTitle">
+            <div class="image-viewer-head">
+                <h2 class="image-viewer-title" id="imageViewerTitle">ANA project images</h2>
+                <button class="image-viewer-close" id="imageViewerClose" type="button" aria-label="Close image viewer">&times;</button>
+            </div>
+            <img class="image-frame" id="imageFrame" src="ANA1.png" alt="ANA project image 1">
+            <div class="image-choices" aria-label="Choose an ANA project image">
+                <button class="image-choice is-selected" type="button" data-image="ANA1.png" data-alt="ANA project image 1">ANA1</button>
+                <button class="image-choice" type="button" data-image="ANA2.png" data-alt="ANA project image 2">ANA2</button>
+                <button class="image-choice" type="button" data-image="ANA3.png" data-alt="ANA project image 3">ANA3</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const videoTriggers = document.querySelectorAll('.project-video-trigger');
+        const videoViewer = document.getElementById('videoViewer');
+        const videoViewerClose = document.getElementById('videoViewerClose');
+        const videoFrame = document.getElementById('videoFrame');
+        const videoChoices = document.querySelectorAll('.video-choice');
+        const imageTrigger = document.querySelector('.project-image-trigger');
+        const imageViewer = document.getElementById('imageViewer');
+        const imageViewerClose = document.getElementById('imageViewerClose');
+        const imageFrame = document.getElementById('imageFrame');
+        const imageChoices = document.querySelectorAll('.image-choice');
+        let previouslyFocusedVideoTrigger = null;
+        let previouslyFocusedImageTrigger = null;
+
+        const openVideoViewer = (videoId, startTime = '') => {
+            previouslyFocusedVideoTrigger = document.activeElement;
+            const startParameter = startTime ? `&start=${encodeURIComponent(startTime)}` : '';
+            videoFrame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0${startParameter}`;
+            videoViewer.classList.add('is-open');
+            videoViewer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            videoViewerClose.focus();
+        };
+
+        const closeVideoViewer = () => {
+            videoViewer.classList.remove('is-open');
+            videoViewer.setAttribute('aria-hidden', 'true');
+            videoFrame.removeAttribute('src');
+            document.body.style.overflow = '';
+            previouslyFocusedVideoTrigger?.focus();
+        };
+
+        videoTriggers.forEach((trigger) => {
+            trigger.addEventListener('click', () => openVideoViewer(trigger.dataset.video, trigger.dataset.start));
+            trigger.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openVideoViewer(trigger.dataset.video, trigger.dataset.start);
+                }
+            });
+        });
+
+        videoChoices.forEach((choice) => {
+            choice.addEventListener('click', () => {
+                videoChoices.forEach((otherChoice) => otherChoice.classList.remove('is-selected'));
+                choice.classList.add('is-selected');
+                openVideoViewer(choice.dataset.video, choice.dataset.start);
+            });
+        });
+
+        videoViewerClose.addEventListener('click', closeVideoViewer);
+        videoViewer.addEventListener('click', (event) => {
+            if (event.target === videoViewer) {
+                closeVideoViewer();
+            }
+        });
+
+        const openImageViewer = (imagePath, imageAlt) => {
+            previouslyFocusedImageTrigger = document.activeElement;
+            imageFrame.src = imagePath;
+            imageFrame.alt = imageAlt;
+            imageViewer.classList.add('is-open');
+            imageViewer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            imageViewerClose.focus();
+        };
+
+        const closeImageViewer = () => {
+            imageViewer.classList.remove('is-open');
+            imageViewer.setAttribute('aria-hidden', 'true');
+            imageFrame.src = '';
+            document.body.style.overflow = '';
+            previouslyFocusedImageTrigger?.focus();
+        };
+
+        imageTrigger.addEventListener('click', () => openImageViewer('ANA1.png', 'ANA project image 1'));
+        imageTrigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openImageViewer('ANA1.png', 'ANA project image 1');
+            }
+        });
+
+        imageChoices.forEach((choice) => {
+            choice.addEventListener('click', () => {
+                imageChoices.forEach((otherChoice) => otherChoice.classList.remove('is-selected'));
+                choice.classList.add('is-selected');
+                openImageViewer(choice.dataset.image, choice.dataset.alt);
+            });
+        });
+
+        imageViewerClose.addEventListener('click', closeImageViewer);
+        imageViewer.addEventListener('click', (event) => {
+            if (event.target === imageViewer) {
+                closeImageViewer();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && videoViewer.classList.contains('is-open')) {
+                closeVideoViewer();
+            }
+
+            if (event.key === 'Escape' && imageViewer.classList.contains('is-open')) {
+                closeImageViewer();
+            }
+        });
+    </script>
+</body>
+</html>
